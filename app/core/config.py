@@ -67,8 +67,12 @@ class Settings(BaseSettings):
         )
 
     EMAIL_TEST_USER: EmailStr = "asdasd@asdasd.com"  # type: ignore
-    FIRST_SUPERUSER: EmailStr
+
+    # Superuser
+    FIRST_SUPERUSER_FULLNAME: str
+    FIRST_SUPERUSER_EMAIL: EmailStr
     FIRST_SUPERUSER_PASSWORD: str
+
     USERS_OPEN_REGISTRATION: bool = True
 
     class Config:
