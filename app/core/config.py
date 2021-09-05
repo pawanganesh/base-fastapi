@@ -6,6 +6,9 @@ from pydantic import AnyHttpUrl, BaseSettings, EmailStr, PostgresDsn, validator
 class Settings(BaseSettings):
     API_STR: str = "/api"
 
+    # BACKEND_CORS_ORIGINS is a JSON-formatted list of origins
+    # e.g: '["http://localhost", "http://localhost:4200", "http://localhost:3000", \
+    # "http://localhost:8080", "http://local.dockertoolbox.tiangolo.com"]'
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = []
 
     @validator("BACKEND_CORS_ORIGINS", pre=True)
@@ -25,7 +28,7 @@ class Settings(BaseSettings):
     SQLALCHEMY_DATABASE_URI: Optional[PostgresDsn] = None
 
     SECRET_KEY: str
-    ALGORITHM: str
+    # ALGORITHM: str
     ACCESS_TOKEN_EXPIRE_MINUTES: int
 
     @validator("SQLALCHEMY_DATABASE_URI", pre=True)
@@ -48,25 +51,28 @@ class Settings(BaseSettings):
     EMAILS_FROM_EMAIL: Optional[EmailStr] = None
     EMAILS_FROM_NAME: Optional[str] = None
 
+    SERVER_NAME: str
+    SERVER_HOST: AnyHttpUrl
+
     @validator("EMAILS_FROM_NAME")
     def get_project_name(cls, v: Optional[str], values: Dict[str, Any]) -> str:
         if not v:
             return values["PROJECT_NAME"]
         return v
 
-    EMAIL_RESET_TOKEN_EXPIRE_HOURS: int = 48
-    EMAIL_TEMPLATES_DIR: str = "/app/app/email-templates/build"
-    EMAILS_ENABLED: bool = False
+    EMAIL_RESET_TOKEN_EXPIRE_HOURS: int
+    EMAIL_TEMPLATES_DIR: str = "app/email-templates/build"
+    EMAILS_ENABLED: bool = True
 
-    @validator("EMAILS_ENABLED", pre=True)
-    def get_emails_enabled(cls, v: bool, values: Dict[str, Any]) -> bool:
-        return bool(
-            values.get("SMTP_HOST")
-            and values.get("SMTP_PORT")
-            and values.get("EMAILS_FROM_EMAIL")
-        )
+    # @validator("EMAILS_ENABLED", pre=True)
+    # def get_emails_enabled(cls, v: bool, values: Dict[str, Any]) -> bool:
+    #     return bool(
+    #         values.get("SMTP_HOST")
+    #         and values.get("SMTP_PORT")
+    #         and values.get("EMAILS_FROM_EMAIL")
+    #     )
 
-    EMAIL_TEST_USER: EmailStr = "asdasd@asdasd.com"  # type: ignore
+    EMAIL_TEST_USER: EmailStr = "pawanlalganesh@gmail.com"  # type: ignore
 
     # Superuser
     FIRST_SUPERUSER_FULLNAME: str
