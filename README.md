@@ -1,6 +1,9 @@
 #FASTAPI BACKEND BASE PROJECT WITH POSTGRESQl
 
-Run app
+Clone project:
+git clone https://github.com/pawanlalganesh/base-fastapi
+
+Run app:
 uvicorn app.main:app --reload
 
 Migration commands:
